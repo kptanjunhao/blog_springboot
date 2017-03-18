@@ -1,6 +1,7 @@
 package com.tan.dao;
 
 import com.tan.model.User;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,40 +14,54 @@ import java.io.Serializable;
  */
 public class UserDao {
 
-    Configuration config = null;
     SessionFactory sessionFactory = null;
     Session session = null;
     Transaction tx = null;
 
     public UserDao() {
-        config = new Configuration().configure();
-        sessionFactory = config.buildSessionFactory();
+        sessionFactory = BaseDao.config.buildSessionFactory();
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
     }
     //增加
-    public void insert(User user) {;
-        session.save(user);
-        tx.commit();
-        session.close();
+    public boolean insert(User user) {
+        try {
+            session.save(user);
+            tx.commit();
+            return true;
+        }catch (HibernateException e){
+            System.out.println("UserDao insert() error:"+e.getCause().getLocalizedMessage());
+            return false;
+        }finally{
+            session.close();
+        }
     }
     //修改
-    public void update(User user) {
+    public boolean update(User user) {
         User newUser = session.get(User.class,user.getId());
-        session.update(newUser);
-        tx.commit();
-        session.close();
+        boolean isSucceed = false;
+        try {
+            session.update(newUser);
+            tx.commit();
+            isSucceed = true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally{
+            session.close();
+        }
+        return isSucceed;
     }
     //查找
-    public User getById(Integer id) {
-        User user = session.get(User.class, id);
+    public User getByUsername(String username) {
+        User user = session.get(User.class, username);
         tx.commit();
         session.close();
         return user;
     }
+
     //删除
     public void deleteById(Integer id) {
-        session.delete("from Customer as c where c.id="+id);
+        session.delete("from user as u where u.id="+id);
         tx.commit();
         session.close();
     }
