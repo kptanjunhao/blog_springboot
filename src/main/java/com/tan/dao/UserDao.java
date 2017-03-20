@@ -21,11 +21,11 @@ public class UserDao {
     public UserDao() {
         sessionFactory = BaseDao.config.buildSessionFactory();
         session = sessionFactory.openSession();
-        tx = session.beginTransaction();
     }
     //增加
     public boolean insert(User user) {
         try {
+            tx = session.beginTransaction();
             session.save(user);
             tx.commit();
             return true;
@@ -39,31 +39,43 @@ public class UserDao {
     //修改
     public boolean update(User user) {
         User newUser = session.get(User.class,user.getId());
-        boolean isSucceed = false;
         try {
+            tx = session.beginTransaction();
             session.update(newUser);
             tx.commit();
-            isSucceed = true;
-        }catch (Exception e){
+            return true;
+        }catch (HibernateException e){
             e.printStackTrace();
+            return false;
         }finally{
             session.close();
         }
-        return isSucceed;
     }
     //查找
     public User getByUsername(String username) {
-        User user = session.get(User.class, username);
-        tx.commit();
-        session.close();
-        return user;
+        try {
+            User user = session.get(User.class, username);
+            return user;
+        }catch (HibernateException e){
+            return null;
+        }finally {
+            session.close();
+        }
     }
 
     //删除
-    public void deleteById(Integer id) {
-        session.delete("from user as u where u.id="+id);
-        tx.commit();
-        session.close();
+    public boolean deleteById(Integer id) {
+        try {
+            tx = session.beginTransaction();
+            session.delete("from user as u where u.id=" + id);
+            tx.commit();
+            return true;
+        }catch (HibernateException e){
+            return false;
+        }
+        finally {
+            session.close();
+        }
     }
 
 }

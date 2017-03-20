@@ -25,8 +25,13 @@ public class RouteController {
     public String register(User user){
         user.setCreatetime(new Date());
         Map result = new HashMap();
-        result.put("statu",UserModule.reg(user));
-        result.put("msg","注册失败");
+        if (UserModule.checkUserExist(user.getUsername())){
+            result.put("statu", false);
+            result.put("msg", "用户名已存在");
+        }else {
+            result.put("statu", UserModule.reg(user));
+            result.put("msg", "注册失败");
+        }
         return result.toString();
     }
 
@@ -34,7 +39,7 @@ public class RouteController {
     public String login(User user){
         Map result = new HashMap();
         result.put("statu",UserModule.login(user));
-        result.put("msg","注册失败");
+        result.put("msg","登陆");
         return result.toString();
     }
 

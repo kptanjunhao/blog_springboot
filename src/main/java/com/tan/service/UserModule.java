@@ -8,13 +8,23 @@ import com.tan.model.User;
  */
 public class UserModule {
 
+    /*
+    * 返回：用户存在true   不存在false
+    * */
+    public static boolean checkUserExist(String username){
+        User user = new UserDao().getByUsername(username);
+        return (user != null);
+    }
+
     public static boolean reg(User user){
         UserDao userDao = new UserDao();
+        if (user.checkUserNameOrPasswordIsEmpty()){ return false; }
         return userDao.insert(user);
     }
 
     public static boolean login(User user){
         UserDao userDao = new UserDao();
+        if (user.checkUserNameOrPasswordIsEmpty()){ return false; }
         User dbuser = userDao.getByUsername(user.getUsername());
         return dbuser.getPassword().equals(user.getPassword());
     }

@@ -91,4 +91,8 @@ public class User {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
+
+    public boolean checkUserNameOrPasswordIsEmpty(){
+        return !(getUsername() != null && getPassword() != null && !getUsername().isEmpty() && !getPassword().isEmpty());
+    }
 }
