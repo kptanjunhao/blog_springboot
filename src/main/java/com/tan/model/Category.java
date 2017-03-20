@@ -7,6 +7,7 @@ import javax.persistence.Id;
 
 /**
  * Created by 24429 on 2017/3/18.
+ * by 谭钧豪
  */
 @Entity
 public class Category {

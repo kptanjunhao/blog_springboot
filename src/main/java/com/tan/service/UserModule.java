@@ -5,6 +5,7 @@ import com.tan.model.User;
 
 /**
  * Created by 24429 on 2017/3/18.
+ * by 谭钧豪
  */
 public class UserModule {
 
@@ -16,10 +17,9 @@ public class UserModule {
         return (user != null);
     }
 
-    public static boolean reg(User user){
+    public static boolean reg(User user) {
         UserDao userDao = new UserDao();
-        if (user.checkUserNameOrPasswordIsEmpty()){ return false; }
-        return userDao.insert(user);
+        return !user.checkUserNameOrPasswordIsEmpty() && userDao.insert(user);
     }
 
     public static boolean login(User user){

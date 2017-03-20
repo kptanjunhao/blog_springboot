@@ -11,6 +11,7 @@ import java.util.Map;
 
 /**
  * Created by 24429 on 2017/3/18.
+ * by 谭钧豪
  */
 
 @RestController
@@ -24,21 +25,21 @@ public class RouteController {
     @RequestMapping(value = "register")
     public String register(User user){
         user.setCreatetime(new Date());
-        Map result = new HashMap();
-        if (UserModule.checkUserExist(user.getUsername())){
-            result.put("statu", false);
-            result.put("msg", "用户名已存在");
-        }else {
-            result.put("statu", UserModule.reg(user));
+        Map<String,String> result = new HashMap<>();
+        if (!UserModule.checkUserExist(user.getUsername())) {
+            result.put("statu", UserModule.reg(user)+"");
             result.put("msg", "注册失败");
+        } else {
+            result.put("statu", "false");
+            result.put("msg", "用户名已存在");
         }
         return result.toString();
     }
 
     @RequestMapping(value ="login")
     public String login(User user){
-        Map result = new HashMap();
-        result.put("statu",UserModule.login(user));
+        Map<String,String> result = new HashMap<>();
+        result.put("statu",UserModule.login(user)+"");
         result.put("msg","登陆");
         return result.toString();
     }
