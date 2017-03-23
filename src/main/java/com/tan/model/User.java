@@ -1,8 +1,5 @@
 package com.tan.model;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
 import java.util.Date;
 
