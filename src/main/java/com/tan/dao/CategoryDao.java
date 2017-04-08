@@ -1,36 +1,36 @@
 package com.tan.dao;
 
-import com.tan.model.User;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import com.tan.model.Category;
+import org.hibernate.*;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by 24429 on 2017/3/18.
+ * Created by Tan on 2017/4/7.
  * by 谭钧豪
  */
-public class UserDao {
+public class CategoryDao {
+
 
     SessionFactory sessionFactory = null;
     Session session = null;
     Transaction tx;
 
-    public UserDao() {
+    public CategoryDao() {
         sessionFactory = BaseDao.sessionFactory;
         session = sessionFactory.openSession();
         tx = null;
     }
     //增加
-    public boolean insert(User user) {
+    public boolean insert(Category category) {
         try {
             tx = session.beginTransaction();
-            session.save(user);
+            session.save(category);
             tx.commit();
             return true;
         }catch (HibernateException e){
-            System.out.println("UserDao insert() error:"+e.getCause().getLocalizedMessage());
+            System.out.println("CategoryDao insert() error:"+e.getCause().getLocalizedMessage());
             return false;
         }finally{
             session.close();
@@ -53,11 +53,24 @@ public class UserDao {
 //    }
 
     //查找
-    public User getByUsername(String username) {
+    public Category getById(Integer id) {
         try {
-            return session.get(User.class, username);
+            return session.get(Category.class, id);
         }catch (HibernateException e){
             return null;
+        }finally {
+            session.close();
+        }
+    }
+
+    public List<Category> getAll() {
+        try {
+            Query query = session.createQuery("from Category category");
+            List<Category> list = query.list();
+            return list;
+        }catch (HibernateException e){
+            e.printStackTrace();
+            return new ArrayList<Category>();
         }finally {
             session.close();
         }
@@ -67,7 +80,7 @@ public class UserDao {
 //    public boolean deleteById(Integer id) {
 //        try {
 //            tx = session.beginTransaction();
-//            session.delete("from user as u where u.id=" + id);
+//            session.delete("from category as c where c.id=" + id);
 //            tx.commit();
 //            return true;
 //        }catch (HibernateException e){

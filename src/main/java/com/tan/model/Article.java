@@ -1,9 +1,6 @@
 package com.tan.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -17,13 +14,14 @@ public class Article {
     private Integer id;
 
     private String title;
+    @Column(length = 16777216)
     private String content;
     private Integer createuserid;
     private Date createtime;
     private Date updatetime;
     private Integer updatecount;
     private Integer readcount;
-    private Integer categoryid;
+    private String categoryids;
 
     public Integer getId() {
         return id;
@@ -89,11 +87,11 @@ public class Article {
         this.readcount = readcount;
     }
 
-    public Integer getCategoryid() {
-        return categoryid;
+    public String getCategoryids() {
+        return categoryids;
     }
 
-    public void setCategoryid(Integer categoryid) {
-        this.categoryid = categoryid;
+    public void setCategoryids(String categoryids) {
+        this.categoryids = categoryids;
     }
 }

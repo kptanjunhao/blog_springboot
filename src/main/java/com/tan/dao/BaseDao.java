@@ -1,5 +1,6 @@
 package com.tan.dao;
 
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 /**
@@ -7,5 +8,5 @@ import org.hibernate.cfg.Configuration;
  * by 谭钧豪
  */
 public final class BaseDao {
-    static Configuration config = new Configuration().configure();
+    static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 }

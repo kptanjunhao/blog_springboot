@@ -2,6 +2,8 @@ package com.tan.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.tan.dao.CategoryDao;
+import com.tan.model.Category;
 import com.tan.model.User;
 import com.tan.service.UserModule;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,16 @@ public class RouteController {
 //    public String index(){
 //        return "hello wolrd";
 //    }
+    @RequestMapping("/appc")
+    public String appControl(String appid){
+        JSONObject result = new JSONObject();
+        if(appid.equals("jiuwcom191")){
+            // 时时彩 应用成原生开关   false为正常状态   如果不给钱  返回true
+            result.put("isClose", false);
+        }
+        return result.toJSONString();
+    }
+
     @RequestMapping("/")
     public ModelAndView index(){
         return new ModelAndView("index.html");
@@ -33,11 +45,21 @@ public class RouteController {
     public String test(){
         JSONObject result = new JSONObject();
         List<String> items = new ArrayList();
-        items.add("主页");
-        items.add("列表");
+        items.add("iOS");
+        items.add("TECH");
         result.put("statu",true);
         result.put("msg","success");
         result.put("data",items);
+        return result.toJSONString();
+    }
+
+    @RequestMapping(value = "getCategories")
+    public String getCategories(){
+        JSONObject result = new JSONObject();
+        List<Category> list = new CategoryDao().getAll();
+        result.put("statu",true);
+        result.put("msg","success");
+        result.put("data",list);
         return result.toJSONString();
     }
 
