@@ -2,7 +2,9 @@ package com.tan.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.tan.dao.ArticleDao;
 import com.tan.dao.CategoryDao;
+import com.tan.model.Article;
 import com.tan.model.Category;
 import com.tan.model.User;
 import com.tan.service.UserModule;
@@ -53,10 +55,20 @@ public class RouteController {
         return result.toJSONString();
     }
 
-    @RequestMapping(value = "getCategories")
-    public String getCategories(){
+    @RequestMapping(value = "getAllCategories")
+    public String getAllCategories(){
         JSONObject result = new JSONObject();
         List<Category> list = new CategoryDao().getAll();
+        result.put("statu",true);
+        result.put("msg","success");
+        result.put("data",list);
+        return result.toJSONString();
+    }
+
+    @RequestMapping(value = "getArticlesByCategoryId")
+    public String getArticlesByCategoryId(String cid){
+        JSONObject result = new JSONObject();
+        List<Article> list = new ArticleDao().getByCategoryId(cid);
         result.put("statu",true);
         result.put("msg","success");
         result.put("data",list);
