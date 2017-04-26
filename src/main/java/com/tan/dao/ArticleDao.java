@@ -77,7 +77,7 @@ public class ArticleDao {
 
     public List<Article> getByCategoryId(String cid) {
         try {
-            Query query = session.createQuery("from Article article where article.categoryids like '%"+cid+",%'");
+            Query query = session.createQuery("from Article article where article.categoryids like '%,"+cid+",%'");
             List<Article> list = query.list();
             return list;
         }catch (HibernateException e){
