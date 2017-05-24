@@ -21,7 +21,6 @@ public class Article {
     private Date updatetime;
     private Integer updatecount;
     private Integer readcount;
-    private String categoryids;
 
     public Integer getId() {
         return id;
@@ -87,11 +86,4 @@ public class Article {
         this.readcount = readcount;
     }
 
-    public String getCategoryids() {
-        return categoryids;
-    }
-
-    public void setCategoryids(String categoryids) {
-        this.categoryids = categoryids;
-    }
 }

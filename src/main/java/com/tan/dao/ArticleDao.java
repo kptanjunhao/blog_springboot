@@ -1,6 +1,7 @@
 package com.tan.dao;
 
 import com.tan.model.Article;
+import com.tan.model.Article_category;
 import org.hibernate.*;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ArticleDao {
             tx.commit();
             return true;
         }catch (HibernateException e){
-            System.out.println("CategoryDao insert() error:"+e.getCause().getLocalizedMessage());
+            System.out.println("ArticleDao insert() error:"+e.getCause().getLocalizedMessage());
             return false;
         }finally{
             session.close();
@@ -77,12 +78,16 @@ public class ArticleDao {
 
     public List<Article> getByCategoryId(String cid) {
         try {
-            Query query = session.createQuery("from Article article where article.categoryids like '%,"+cid+",%'");
-            List<Article> list = query.list();
-            return list;
+            Query query = session.createQuery("from Article_category articleCategory where articleCategory.c_id = "+cid);
+            List<Article_category> list = query.list();
+            List<Article> articleList = new ArrayList<>();
+            for (Article_category ac:list) {
+                articleList.add(session.get(Article.class, ac.getA_id()));
+            }
+            return articleList;
         }catch (HibernateException e){
             e.printStackTrace();
-            return new ArrayList<Article>();
+            return new ArrayList<>();
         }finally {
             session.close();
         }

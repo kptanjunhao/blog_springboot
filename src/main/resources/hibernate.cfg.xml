@@ -20,6 +20,7 @@
         <!-- 映射文件 -->
         <mapping class="com.tan.model.User" />
         <mapping class="com.tan.model.Article" />
+        <mapping class="com.tan.model.Article_category" />
         <mapping class="com.tan.model.Category" />
         <mapping class="com.tan.model.Comment" />
 
